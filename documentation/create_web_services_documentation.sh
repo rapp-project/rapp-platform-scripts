@@ -19,7 +19,7 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-WEB_SRV_DIR="${DIR}/../../rapp_web_services"
+WEB_SRV_DIR="${DIR}/../../rapp-platform/rapp_web_services"
 
 RAPP_PLATFORM_FILES_DIR="${HOME}/rapp_platform_files/documentation"
 DOC_DEST="${RAPP_PLATFORM_FILES_DIR}/platform_web_services"

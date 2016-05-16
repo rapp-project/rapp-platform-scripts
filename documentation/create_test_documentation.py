@@ -35,7 +35,7 @@ documentPath = os.path.join( os.environ['HOME'], \
 # Unwanted directories
 blacklist = [ '.git', 'rapp_web_services' ]
 # Doxygen root folder
-platform_root = '../../'
+platform_root = '../../rapp-platform'
 
 
 # Create capitalized space seperated package name without the rapp word
@@ -117,7 +117,7 @@ def main():
       platform_dirs.remove( blackDir )
 
   for packageName in platform_dirs:
-    packagePath = os.path.join( platform_root + packageName )
+    packagePath = os.path.join( platform_root, packageName )
     pack_dirs = os.walk( packagePath ).next()[1]
     if 'tests' in pack_dirs or 'test' in packageName:
 

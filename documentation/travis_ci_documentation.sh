@@ -33,7 +33,7 @@ fi
 
 echo "Creating online documentation"
 sudo apt-get install -qq -y doxygen texlive-full &> /dev/null
-cd $RAPP_PLATFORM_PATH/rapp_scripts/documentation
+cd ${HOME}/rapp_platform/rapp-platform-scripts/documentation
 bash update_rapp-project.github.io.sh
 echo "Documentation created and updated online"
 

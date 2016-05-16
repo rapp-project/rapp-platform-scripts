@@ -19,7 +19,7 @@
 
 TEMP_PATH="${HOME}/rapp_temp"
 TEMP_PLATFORM="${TEMP_PATH}/rapp-platform"
-TEMP_PLATFORM_SCRIPTS="${TEMP_PLATFORM}/rapp_scripts/documentation"
+TEMP_PLATFORM_SCRIPTS="${TEMP_PATH}/rapp-platform-scripts/documentation"
 TEMP_API_SCRIPTS="${TEMP_PATH}/rapp-api/documentation/scripts"
 TEMP_PAGES="${HOME}/rapp_temp/rapp-platform-pages"
 DOCS="${HOME}/rapp_platform_files/documentation"
@@ -33,6 +33,9 @@ if [ "${TRAVIS_BRANCH}" == 'master' ]; then
   mkdir -p ${TEMP_PATH}
 
   cd ${TEMP_PATH}
+
+  echo -e "\e[1m\e[103m\e[31m[RAPP] Cloning Platform Scripts Repository\e[0m"
+  git clone https://github.com/rapp-project/rapp-platform-scripts.git &> /dev/null
 
   echo -e "\e[1m\e[103m\e[31m[RAPP] Cloning Platform Repository\e[0m"
   git clone https://github.com/rapp-project/rapp-platform.git &> /dev/null

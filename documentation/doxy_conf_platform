@@ -18,7 +18,7 @@ WARN_NO_PARAMDOC                  = YES
 
 #OPTIMIZE_OUTPUT_JAVA              = YES
 
-INPUT                             = ../../
+INPUT                             = ../../rapp-platform/
 
 FILE_PATTERNS                     = *.cpp
 FILE_PATTERNS                    += *.h
