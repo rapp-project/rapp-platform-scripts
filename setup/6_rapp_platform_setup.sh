@@ -75,6 +75,15 @@ grep -q "${append}" ~/.bashrc || echo -e          \
 echo -e "\e[1m\e[103m\e[31m [RAPP] Building Rapp Platform\e[0m"
 cd ${RappPlatformWs} && catkin_make
 
+
+echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning scripts repository\e[0m"
+cd ${HOME}/rapp_platform
+RAPP_SCRIPTS_BRANCH='master'
+if [ "${TRAVIS_BRANCH}" != "master" ]; then
+  RAPP_SCRIPTS_BRANCH="devel"
+fi
+git clone --branch=$RAPP_SCRIPTS_BRANCH https://github.com/rapp-project/rapp-platform-scripts.git &> /dev/null
+
 # Install rapp_web_services package deps
 cd ${RappWebServicesPkgPath}
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing web_services package dependencies\e[0m"
