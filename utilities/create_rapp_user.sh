@@ -16,60 +16,28 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-# Authors: Konstantinos Panayiotou, Manos Tsardoulias
-# Contact: klpanagi@gmail.com, etsardou@iti.gr
+# Authors: Konstantinos Panayiotou, Manos Tsardoulias, Aris Thallas
+# Contact: klpanagi@gmail.com, etsardou@iti.gr, aris.thallas@{gmail.com, iti.gr}
 ##
 
 
 ##
-#  Use this script to create and authenticate a new RAPP User.
-#  1) Creates a new entry in RappStore.tblUser.
-#  2) Creates and authenticate a new HOP User.
+#  Use this script to create and login a new RAPP User.
 ##
 
-web_services_dir="$HOME/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_web_services"
-cfg_file="hoprc.js"
-cfg_file_path="$web_services_dir/config/hop/$cfg_file"
-
-
-info="Minimal required fields for mysql user creation:\n"
-info+="* username  : \n"
-info+="* firstname : User's firstname\n"
-info+="* lastname  : User's lastname/surname\n"
-info+="* language  : User's first language\n\n"
+info="Minimal required fields for user creation:\n"
+info+="* 1) username\n"
+info+="* 2) password\n\n"
 
 echo -e "$info"
 
 read -p "Username: "  username
-read -p "Firstname: " firstname
-read -p "Lastname: "  lastname
-read -p "Language: "  language
 read -sp "Password: "  passwd
 echo ""
 
-grep -q "$username" ${cfg_file_path} && \
-  {
-    echo -e "\033[1;31mDuplicate entry. This user allready exists!";
-    exit 1;
-  }
+echo "Creating new user"
+rosservice call /rapp/rapp_application_authentication/add_new_user_from_platfrom "{creator_username: 'rapp', creator_password: 'rapp', new_user_username: '$username', new_user_password: '$passwd', language: ''}"
+echo ""
 
-insert_cmd="insert into tblUser (username, firstname, lastname, language) values ('${username}', '${firstname}', '${lastname}', '${language}')"
-
-# Create User's db entry in tblUser.
-echo "$insert_cmd" | mysql -u root -p RappStore
-
-## -------------------- Create HOP user and authenticate ------------------- ##
-
-
-#read -sp "Enter user's HOP authentication password and press [Enter]: " passwd
-
-append_user_block="\n/*\n * Authenticate user $username\n */\n"
-append_user_block+="user.add({\n"
-append_user_block+="  name: '$username',\n"
-append_user_block+="  password: user.encryptPassword( '$username', '$passwd' ),\n"
-append_user_block+="  groups: [],\n"
-append_user_block+="  services: '*',\n"
-append_user_block+="  directories: ['/tmp']\n"
-append_user_block+="});"
-
-echo -e "$append_user_block" >> $cfg_file_path
+echo "Login in"
+rosservice call /rapp/rapp_application_authentication/login "{username: '$username', password: '$passwd', device_token: 'rapp_device'}"
