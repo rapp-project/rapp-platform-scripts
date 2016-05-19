@@ -108,6 +108,7 @@ The following scripts are offered:
 - ```importRAPPOntology.sh```: Imports the RAPP ontology from an .owl file
 - ```create_rapp_user.sh```: Create and authenticate a new RAPP User.
 
+<!---
 ### create_rapp_user.sh
 
 ```shell
@@ -132,3 +133,4 @@ Lastname: rapp
 Language: el
 Password:
 ```
+-->
