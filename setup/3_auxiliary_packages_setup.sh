@@ -40,8 +40,13 @@ sudo apt-get install -y python-pip -qq &> /dev/null
 sudo apt-get install -y npm nodejs -qq &> /dev/null
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 
-# Install python yweather package
+# Install python weather related packages
 sudo pip install yweather &> /dev/null
+sudo pip install forecastiopy &> /dev/null
+sudo pip install geocoder &> /dev/null
+
+# Install python news reporter related packages
+sudo pip install eventregistry &> /dev/null
 
 # Grunt-Cli
 sudo npm install -g grunt-cli &> /dev/null
