@@ -63,7 +63,7 @@ git clone --branch=$RAPP_API_BRANCH https://github.com/rapp-project/rapp-api.git
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing pip dependencies\e[0m"
 cd rapp-api/python
 # Install the Python Rapp API in development mode under user's space
-python setup.py develop --user 1> /dev/null
+python setup.py install --user 1> /dev/null
 
 # Append to user's .bashrc file.
 append="source ~/rapp_platform/rapp-platform-catkin-ws/devel/setup.bash --extend"
