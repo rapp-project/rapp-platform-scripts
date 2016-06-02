@@ -27,16 +27,19 @@
 
 info="Minimal required fields for user creation:\n"
 info+="* 1) username\n"
-info+="* 2) password\n\n"
+info+="* 2) password\n"
+info+="* 3) user language\n\n"
 
 echo -e "$info"
 
 read -p "Username: "  username
+read -p "Language: " language
 read -sp "Password: "  passwd
+
 echo ""
 
 echo "Creating new user"
-rosservice call /rapp/rapp_application_authentication/add_new_user_from_platfrom "{creator_username: 'rapp', creator_password: 'rapp', new_user_username: '$username', new_user_password: '$passwd', language: ''}"
+rosservice call /rapp/rapp_application_authentication/add_new_user_from_platfrom "{creator_username: 'rapp', creator_password: 'rapp', new_user_username: '$username', new_user_password: '$passwd', language: '$language'}"
 echo ""
 
 echo "Login in"
