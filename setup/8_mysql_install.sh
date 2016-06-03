@@ -24,6 +24,8 @@
 #  Install mysql.
 ##
 
+source redirect_output.sh
+
 echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL \e[0m"
 if [ $# -eq 1 ]; then
   if [ "$1" == 'travis' ]; then
@@ -36,12 +38,12 @@ fi
 # Setup sources list. If we are on Travis suppress the log
 echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL install \e[0m"
 if [ -n "${TRAVIS_BRANCH}" ]; then
-  sudo apt-get install -y -qq mysql-client mysql-server &> /dev/null 
+  redirect_all sudo apt-get install -y mysql-client mysql-server
 else
-  sudo apt-get install -y -qq mysql-client mysql-server 
+  sudo apt-get install -y mysql-client mysql-server
 fi
 
-sudo apt-get install -y -qq python-mysqldb &> /dev/null
+redirect_all sudo apt-get install -y python-mysqldb
 
 if [ $# -eq 1 ]; then
   if [ "$1" == 'travis' ]; then

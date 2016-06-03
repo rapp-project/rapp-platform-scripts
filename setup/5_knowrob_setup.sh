@@ -26,6 +26,7 @@
 #    http://www.knowrob.org/
 ##
 
+source redirect_output.sh
 
 RappPlatformPath="${HOME}/rapp_platform"
 RappPlatformFilesPath="${HOME}/rapp_platform_files"
@@ -41,12 +42,12 @@ cp currentOntologyVersion.owl ${RappPlatformFilesPath}
 
 # Download and install KnowRob
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Knowrob \e[0m"
-sudo apt-get install -qq -y swi-prolog swi-prolog-java &> /dev/null
-sudo apt-get install -qq -y ros-indigo-json-prolog-msgs &> /dev/null
-sudo apt-get install -qq -y python-rosinstall &> /dev/null
-sudo apt-get install -qq -y libjson-glib-dev &> /dev/null
-sudo apt-get install -qq -y ros-indigo-data-vis-msgs &> /dev/null
-sudo apt-get install -qq -y ros-indigo-rosjava-build-tools &> /dev/null
+redirect_all sudo apt-get install -y swi-prolog swi-prolog-java
+redirect_all sudo apt-get install -y ros-indigo-json-prolog-msgs
+redirect_all sudo apt-get install -y python-rosinstall
+redirect_all sudo apt-get install -y libjson-glib-dev
+redirect_all sudo apt-get install -y ros-indigo-data-vis-msgs
+redirect_all sudo apt-get install -y ros-indigo-rosjava-build-tools
 
 append="export SWI_HOME_DIR=/usr/lib/swi-prolog"
 grep -q "${append}" ~/.bashrc || echo -e          \
@@ -64,7 +65,7 @@ mkdir src && cd src
 
 # Initialize knowrob catkin workspace
 echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Knowrob Catkin Workspace\e[0m"
-catkin_init_workspace &> /dev/null
+redirect_all catkin_init_workspace
 
 # Fetch knowrob sources
 
@@ -73,16 +74,16 @@ if [ "${TRAVIS_BRANCH}" != "master" ]; then
   KNOWROB_BRANCH="devel"
 fi
 echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning Knowrob, branch: $KNOWROB_BRANCH\e[0m"
-git clone --branch=$KNOWROB_BRANCH https://github.com/rapp-project/knowrob.git &> /dev/null
+redirect_all git clone --branch=$KNOWROB_BRANCH https://github.com/rapp-project/knowrob.git
 cd ../
 
 # Update rosdep with rosjava dependencies and install them.
-rosdep update &> /dev/null
-rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y &> /dev/null
+redirect_all rosdep update
+redirect_all rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y
 
 # Build knowrob
 echo -e "\e[1m\e[103m\e[31m [RAPP] Building Knowrob \e[0m"
-catkin_make &> /dev/null
+redirect_all catkin_make
 
 append="source ${KnowrobPath}/devel/setup.bash --extend"
 grep -q "${append}" ~/.bashrc || echo -e          \

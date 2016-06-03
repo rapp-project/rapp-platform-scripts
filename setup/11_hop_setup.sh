@@ -20,6 +20,8 @@
 # Contact: klpanagi@gmail.com
 ##
 
+source redirect_output.sh
+
 RappPlatformPath="${HOME}/rapp_platform"
 BiglooTarballName="bigloo4.3a"
 BiglooUrl="http://rapp-project.eu/${BiglooTarballName}.tar.gz"
@@ -33,34 +35,35 @@ curr=$(pwd)
 #sudo sh -c 'echo "deb ftp://ftp-sop.inria.fr/indes/rapp/UBUNTU lts hop" >> \
 #  /etc/apt/sources.list'
 
-sudo apt-get install libunistring-dev &> /dev/null
+redirect_all sudo apt-get install libunistring-dev
 
 # Bigloo installation
 cd ${RappPlatformPath}
 mkdir hop-bigloo
 cd hop-bigloo
-wget ${BiglooUrl} &> /dev/null
+redirect_all wget ${BiglooUrl}
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Bigloo \e[0m"
-tar -zxf "${BiglooTarballName}.tar.gz" &> /dev/null
+redirect_all tar -zxf "${BiglooTarballName}.tar.gz"
 cd "${BiglooTarballName}"
-./configure &> /dev/null
-make &> /dev/null
-make test &> /dev/null
-make compile-bee &> /dev/null
-sudo make install &> /dev/null
-sudo make install-bee &> /dev/null
+redirect_all ./configure
+redirect_all make
+redirect_all make test
+redirect_all make compile-bee
+redirect_all sudo make install
+redirect_all sudo make install-bee
 
 # HOP installation
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing HOP \e[0m"
 cd ..
-git clone ${HopRepoUrl} &> /dev/null
+redirect_all git clone ${HopRepoUrl}
 cd hop
-git checkout ${HopCommitIndex} &> /dev/null
-./configure &> /dev/null
-make &> /dev/null
-sudo make install &> /dev/null
-make doc &> /dev/null
-sudo make install &> /dev/null
+redirect_all git checkout ${HopCommitIndex}
+redirect_all ./configure
+redirect_all make
+redirect_all sudo make install
+redirect_all make doc
+redirect_all sudo make install
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Finished HOP/Bigloo \e[0m"
+
