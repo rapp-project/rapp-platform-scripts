@@ -32,6 +32,16 @@ Screen how-to: http://www.rackaid.com/blog/linux-screen-tutorial-and-how-to/
 These scripts can be executed after a clean Ubuntu 14.04 installation, in order
 to install the appropriate packages and setup the environment.
 
+
+**NOTE:** Output is disabled by default. In order to enable the setup scripts output the `RAPP_SILENT` environmental variable must be set. Execute:
+```bash
+export RAPP_SILENT=1
+```
+To remove the variable execute:
+```bash
+unset RAPP_SILENT
+```
+
 #### Step 0 - Get the scripts
 
 You can get the setup scripts either by downloading the rapp-platform-scripts repository in a [zip format](https://github.com/rapp-project/rapp-platform-scripts/zipball/master), or by cloning it in your PC using git:
