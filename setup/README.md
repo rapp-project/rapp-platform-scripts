@@ -3,6 +3,15 @@
 These scripts can be executed after a clean Ubuntu 14.04 installation, in order
 to install the appropriate packages and setup the environment.
 
+**NOTE:** Output is disabled by default. In order to enable the setup scripts output the `RAPP_SILENT` environmental variable must be set. Execute:
+```bash
+export RAPP_SILENT=1
+```
+To remove the variable execute:
+```bash
+unset RAPP_SILENT
+```
+
 ##Step 0 - Github keys setup
 
 Since our Github repositories are private, a public key to Github should be 
