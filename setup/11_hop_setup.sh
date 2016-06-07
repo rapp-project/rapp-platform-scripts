@@ -20,7 +20,6 @@
 # Contact: klpanagi@gmail.com
 ##
 
-
 RappPlatformPath="${HOME}/rapp_platform"
 BiglooTarballName="bigloo4.3a"
 BiglooUrl="http://rapp-project.eu/${BiglooTarballName}.tar.gz"
