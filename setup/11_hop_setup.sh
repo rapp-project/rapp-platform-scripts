@@ -20,11 +20,6 @@
 # Contact: klpanagi@gmail.com
 ##
 
-# Check if we are in TRAVIS and the matrix test suite is UNIT
-if [[ "$TEST_SUITE" == "UNIT1" ]] || [[ "$TEST_SUITE" == "UNIT2" ]] ; then
-  exit 0
-fi
-
 RappPlatformPath="${HOME}/rapp_platform"
 BiglooTarballName="bigloo4.3a"
 BiglooUrl="http://rapp-project.eu/${BiglooTarballName}.tar.gz"
