@@ -24,13 +24,14 @@
 #  Build Rapp Platform onto the system.
 ##
 
+source redirect_output.sh
 
 RappPlatformWs="${HOME}/rapp_platform/rapp-platform-catkin-ws"
 RappWebServicesPkgPath="${RappPlatformWs}/src/rapp-platform/rapp_web_services"
 
 # Install libzbar used by the qr_detection module.
-sudo apt-get install -qq -y libzbar-dev &> /dev/null
-sudo ldconfig &> /dev/null
+redirect_all sudo apt-get install -qq -y libzbar-dev
+redirect_all sudo ldconfig
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Create Github folders \e[0m"
 # Create folder for RAPP platform repo
@@ -43,7 +44,7 @@ mkdir src && cd src
 
 # Initialize Rapp Platform catkin workspace
 echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Rapp Catkin Workspace\e[0m"
-catkin_init_workspace &> /dev/null
+redirect_all catkin_init_workspace
 
 # Clone the repository (public key should have been setup)
 RAPP_PLATFORM_BRANCH='master'
@@ -51,19 +52,19 @@ if [ -n "${TRAVIS_BRANCH}" ]; then
   RAPP_PLATFORM_BRANCH="${TRAVIS_BRANCH}"
 fi
 echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-platform repo, branch: $RAPP_PLATFORM_BRANCH\e[0m"
-git clone --recursive --branch=$RAPP_PLATFORM_BRANCH https://github.com/rapp-project/rapp-platform.git &> /dev/null
+redirect_all git clone --recursive --branch=$RAPP_PLATFORM_BRANCH https://github.com/rapp-project/rapp-platform.git
 
 RAPP_API_BRANCH='master'
 if [ "${TRAVIS_BRANCH}" != "master" ]; then
   RAPP_API_BRANCH="devel"
 fi
 echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-api repo, branch: $RAPP_API_BRANCH\e[0m"
-git clone --branch=$RAPP_API_BRANCH https://github.com/rapp-project/rapp-api.git &> /dev/null
+redirect_all git clone --branch=$RAPP_API_BRANCH https://github.com/rapp-project/rapp-api.git
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing pip dependencies\e[0m"
 cd rapp-api/python
 # Install the Python Rapp API in development mode under user's space
-python setup.py install --user 1> /dev/null
+redirect_output python setup.py install --user
 
 # Append to user's .bashrc file.
 append="source ~/rapp_platform/rapp-platform-catkin-ws/devel/setup.bash --extend"
@@ -82,7 +83,7 @@ RAPP_SCRIPTS_BRANCH='master'
 if [ "${TRAVIS_BRANCH}" != "master" ]; then
   RAPP_SCRIPTS_BRANCH="devel"
 fi
-git clone --branch=$RAPP_SCRIPTS_BRANCH https://github.com/rapp-project/rapp-platform-scripts.git &> /dev/null
+redirect_all git clone --branch=$RAPP_SCRIPTS_BRANCH https://github.com/rapp-project/rapp-platform-scripts.git
 
 # Install rapp_web_services package deps
 cd ${RappWebServicesPkgPath}

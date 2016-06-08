@@ -26,6 +26,9 @@
 #    http://caffe.berkeleyvision.org/
 ##
 
+source redirect_output.sh
+
+echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Caffe \e[0m"
 RappPlatformPath="${HOME}/rapp_platform"
 RappPlatformFilesPath="${HOME}/rapp_platform_files"
 KnowrobPath="${RappPlatformPath}/knowrob_catkin_ws"
@@ -34,20 +37,23 @@ KnowrobPath="${RappPlatformPath}/knowrob_catkin_ws"
 cp ./caffeOntologyClassesBridge $RappPlatformFilesPath"/"
 
 # Install deb package dependencies
-sudo apt-get install -qq -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler &> /dev/null
-sudo apt-get install -qq -y --no-install-recommends libboost-all-dev &> /dev/null
-sudo apt-get install -qq -y libgflags-dev libgoogle-glog-dev liblmdb-dev &> /dev/null
-sudo apt-get install -qq -y libatlas-base-dev &> /dev/null
-sudo apt-get -qq -y install the python-dev &> /dev/null
+redirect_all sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+redirect_all sudo apt-get install -y --no-install-recommends libboost-all-dev
+redirect_all sudo apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
+redirect_all sudo apt-get install -y libatlas-base-dev
+redirect_all sudo apt-get install -y python-dev
 
 # Clone Caffe repo
 cd $RappPlatformPath
-git clone https://github.com/BVLC/caffe.git &> /dev/null
+redirect_all git clone https://github.com/BVLC/caffe.git
 
 # Install python dependencies\
-echo "Installing python dependencies"
+echo -ne "\e[1m\e[103m\e[31m [RAPP] Installing python dependencies \e[0m"
 cd $RappPlatformPath"/caffe/python"
-for req in $(cat requirements.txt); do echo -n "." && sudo -H pip install $req &> /dev/null; done
+for req in $(cat requirements.txt); do
+  echo -n "." && redirect_all sudo -H pip install $req;
+done
+echo ""
 
 # Create the Makefile config
 cd $RappPlatformPath"/caffe"
@@ -56,20 +62,20 @@ cp Makefile.config.example Makefile.config
 sed -i '/# CPU_ONLY := 1/a CPU_ONLY := 1' Makefile.config
 
 # Make all, make test and run tests
-echo "running make all"
-make all &> /dev/null
-echo "running make pycaffe"
-make pycaffe &> /dev/null
+echo -e "\e[1m\e[103m\e[31m [RAPP] Making all\e[0m"
+redirect_all make all
+echo -e "\e[1m\e[103m\e[31m [RAPP] Making pycaffe\e[0m"
+redirect_all make pycaffe
 #echo "running make test but skipping running tests"
-#make test &> /dev/null
-#make runtest &> /dev/null
+# redirect_all make test
+# redirect_all make runtest
 
 # Download bvlc_reference_caffenet pretained model
 # Warning this download is very slow
 #./scripts/download_model_binary.py ./models/bvlc_reference_caffenet
-echo "Cloning rapp-resources Repo"
+echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning rapp-resources Repo\e[0m"
 cd ~/rapp_platform_files
-git clone https://github.com/rapp-project/rapp-resources.git &> /dev/null
+redirect_all git clone https://github.com/rapp-project/rapp-resources.git
 cd ~/rapp_platform_files/rapp-resources
 rm -rf ~/rapp_platform/caffe/models/
 #copy models into caffe directory
@@ -85,7 +91,7 @@ cp -r ~/rapp_platform_files/rapp-resources/caffe/example_images ~/rapp_platform_
 cp ~/rapp_platform_files/rapp-resources/caffe/synset_words.txt ~/rapp_platform/caffe/data/ilsvrc12/synset_words.txt
 
 # Append to user's .bashrc file.
-append="PYTHONPATH=$PYTHONPATH:~/rapp_platform/caffe/python"
+append="PYTHONPATH=\$PYTHONPATH:~/rapp_platform/caffe/python"
 grep -q "${append}" ~/.bashrc || echo -e          \
   "\n# Caffe Python modules\n${append}" \
   >> ~/.bashrc

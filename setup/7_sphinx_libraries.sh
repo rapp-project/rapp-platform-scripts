@@ -20,6 +20,7 @@
 # Contact: etsardou@iti.gr
 ##
 
+source redirect_output.sh
 
 RappPlatformPath="${HOME}/rapp_platform"
 NoiseProfilesPath="$HOME/rapp_platform_files/audio_processing/rapp/noise_profile"
@@ -29,33 +30,33 @@ sphinxbaseUrl="https://github.com/rapp-project/sphinxbase.git"
 
 #download and compile sphinx4 extra libraries
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Sphinx4 Libraries \e[0m"
-sudo apt-get install -qq -y swig &> /dev/null
-sudo apt-get install -qq -y autoconf &> /dev/null
-sudo apt-get install -qq -y python-scipy &> /dev/null
-sudo apt-get install -qq -y bison &> /dev/null
-sudo apt-get install -qq -y sox &> /dev/null
-sudo apt-get install -qq -y flac &> /dev/null
+redirect_all sudo apt-get install -y swig
+redirect_all sudo apt-get install -y autoconf
+redirect_all sudo apt-get install -y python-scipy
+redirect_all sudo apt-get install -y bison
+redirect_all sudo apt-get install -y sox
+redirect_all sudo apt-get install -y flac
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Sphinx4 CMU_SPHINX\e[0m"
 cd ${RappPlatformPath}
-git clone ${cmusphinxUrl} &> /dev/null
+redirect_all git clone ${cmusphinxUrl}
 cd cmusphinx/cmuclmtk
-./autogen.sh &> /dev/null
-make &> /dev/null
-sudo make install &> /dev/null
+redirect_all ./autogen.sh
+redirect_all make
+redirect_all sudo make install
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Sphinx4 Base \e[0m"
 cd ${RappPlatformPath}
-git clone -b rapp_stable ${sphinxbaseUrl} &> /dev/null
+redirect_all git clone -b rapp_stable ${sphinxbaseUrl}
 cd sphinxbase
-./autogen.sh &> /dev/null
-make &> /dev/null
-sudo make install &> /dev/null
+redirect_all ./autogen.sh
+redirect_all make
+redirect_all sudo make install
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Building Sphinx4.java wrapper \e[0m"
 cd ${RappPlatformPath}/rapp-platform-catkin-ws/src/rapp-platform/rapp_speech_detection_sphinx4/src
-bash buildJava.sh &> /dev/null
+redirect_all bash buildJava.sh
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Copying rapp user's noise profiles \e[0m"
-mkdir -p ${NoiseProfilesPath} &> /dev/null
-cp -R ${RappPlatformPath}/rapp-platform-scripts/setup/noise_profiles/* ${NoiseProfilesPath} &> /dev/null
+redirect_all mkdir -p ${NoiseProfilesPath}
+redirect_all cp -R ${RappPlatformPath}/rapp-platform-scripts/setup/noise_profiles/* ${NoiseProfilesPath}

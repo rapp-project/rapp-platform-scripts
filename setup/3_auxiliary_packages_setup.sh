@@ -24,33 +24,34 @@
 #  Install required external auxiliary packages.
 ##
 
+source redirect_output.sh
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing auxiliary packages \e[0m"
 # Allow remote secure connections to the RAPP-Platform.
-sudo apt-get install -y openssh-server -qq &> /dev/null
+redirect_all sudo apt-get install -y openssh-server
 # Remove this?
-sudo apt-get install -y git -qq &> /dev/null
+redirect_all sudo apt-get install -y git
 # Rapp-Text-To-Speech module depends on this.
-sudo apt-get install -y espeak -qq &> /dev/null
+redirect_all sudo apt-get install -y espeak
 # Rapp-Text-To-Speech module depends on this.
-sudo apt-get install -y mbrola* -qq &> /dev/null
+redirect_all sudo apt-get install -y mbrola*
 # Python package manager.
-sudo apt-get install -y python-pip -qq &> /dev/null
+redirect_all sudo apt-get install -y python-pip
 # Node.js and Node.js package manager
-sudo apt-get install -y npm nodejs -qq &> /dev/null
+redirect_all sudo apt-get install -y npm nodejs
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 
 # Install python weather related packages
-sudo pip install yweather &> /dev/null
-sudo pip install forecastiopy &> /dev/null
-sudo pip install geocoder &> /dev/null
+redirect_all sudo pip install yweather
+redirect_all sudo pip install forecastiopy
+redirect_all sudo pip install geocoder
 
 # Install python news reporter related packages
-sudo pip install eventregistry &> /dev/null
+redirect_all sudo pip install eventregistry
 
 # Grunt-Cli
-sudo npm install -g grunt-cli &> /dev/null
-sudo rm -rf ${HOME}/tmp &> /dev/null
+redirect_all sudo npm install -g grunt-cli
+redirect_all sudo rm -rf ${HOME}/tmp
 
 # Enable Grunt shell auto-completion
 append='eval "$(grunt --completion=bash)"'
@@ -59,4 +60,4 @@ grep -q "${append}" ~/.bashrc || echo -e          \
   >> ~/.bashrc
 
 # Load user's bash environment and flush output
-source ~/.bashrc &> /dev/null
+redirect_all source ~/.bashrc

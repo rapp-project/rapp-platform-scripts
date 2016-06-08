@@ -19,14 +19,24 @@
 # Authors: Aris Thallas
 # Contact: aris.thallas@{iti.gr, gmail.com}
 
-source redirect_output.sh
-
-echo -e "\e[1m\e[103m\e[31m [RAPP] Setting up authentication\e[0m"
-redirect_all sudo pip install bcrypt
-redirect_all sudo pip install passlib
-
-TOKEN_PATH=${HOME}"/.config/rapp_platform/tokens/"
-
-mkdir -p ${TOKEN_PATH}
-echo "rapp_token" > ${TOKEN_PATH}"app"
-echo -e "\e[1m\e[103m\e[31m [RAPP] Authentication finished\e[0m"
+redirect_all() {
+  if [ -n "$RAPP_SILENT" ]; then
+    "$@"
+  else
+    "$@" &> /dev/null
+  fi
+}
+redirect_output() {
+  if [ -n "$RAPP_SILENT" ]; then
+    "$@"
+  else
+    "$@" 1> /dev/null
+  fi
+}
+redirect_error() {
+  if [ -n "$RAPP_SILENT" ]; then
+    "$@"
+  else
+    "$@" 2> /dev/null
+  fi
+}
