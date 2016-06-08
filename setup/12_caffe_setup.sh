@@ -41,7 +41,7 @@ redirect_all sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-de
 redirect_all sudo apt-get install -y --no-install-recommends libboost-all-dev
 redirect_all sudo apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
 redirect_all sudo apt-get install -y libatlas-base-dev
-redirect_all sudo apt-get install -y the python-dev
+redirect_all sudo apt-get install -y python-dev
 
 # Clone Caffe repo
 cd $RappPlatformPath
@@ -91,7 +91,7 @@ cp -r ~/rapp_platform_files/rapp-resources/caffe/example_images ~/rapp_platform_
 cp ~/rapp_platform_files/rapp-resources/caffe/synset_words.txt ~/rapp_platform/caffe/data/ilsvrc12/synset_words.txt
 
 # Append to user's .bashrc file.
-append="PYTHONPATH=$PYTHONPATH:~/rapp_platform/caffe/python"
+append="PYTHONPATH=\$PYTHONPATH:~/rapp_platform/caffe/python"
 grep -q "${append}" ~/.bashrc || echo -e          \
   "\n# Caffe Python modules\n${append}" \
   >> ~/.bashrc
