@@ -48,9 +48,12 @@ cd $RappPlatformPath
 redirect_all git clone https://github.com/BVLC/caffe.git
 
 # Install python dependencies\
-echo -e "\e[1m\e[103m\e[31m [RAPP] Installing python dependencies \e[0m"
+echo -ne "\e[1m\e[103m\e[31m [RAPP] Installing python dependencies \e[0m"
 cd $RappPlatformPath"/caffe/python"
-for req in $(cat requirements.txt); do echo -n "." && redirect_all sudo -H pip install $req; done
+for req in $(cat requirements.txt); do
+  echo -n "." && redirect_all sudo -H pip install $req;
+done
+echo ""
 
 # Create the Makefile config
 cd $RappPlatformPath"/caffe"
