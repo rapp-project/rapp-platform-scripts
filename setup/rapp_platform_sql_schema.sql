@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS `language` (
   `name` varchar(32) NOT NULL UNIQUE
 ) ENGINE=InnoDB CHARSET=utf8;
 
-INSERT INTO `language` (`name`) VALUES ('el');
+INSERT INTO `language` (`id`, `name`) VALUES (1, 'en');
+INSERT INTO `language` (`id`, `name`) VALUES (2, 'el');
 
 CREATE TABLE IF NOT EXISTS `platform_user` (
   `id` int unsigned AUTO_INCREMENT PRIMARY KEY,
@@ -14,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `platform_user` (
   `creator_id` int unsigned NOT NULL,
 
   `ontology_alias` varchar(64) DEFAULT NULL,
-  `language_id` int unsigned,
+  `language_id` int unsigned NOT NULL DEFAULT 1,
 
   `creation_time` bigint unsigned NOT NULL DEFAULT 1,
 
