@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `language` (
 ) ENGINE=InnoDB CHARSET=utf8;
 
 INSERT INTO `language` (`name`) VALUES ('el');
+INSERT INTO `language` (`name`) VALUES ('en');
 
 CREATE TABLE IF NOT EXISTS `platform_user` (
   `id` int unsigned AUTO_INCREMENT PRIMARY KEY,
