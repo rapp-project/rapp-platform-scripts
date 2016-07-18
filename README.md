@@ -7,23 +7,40 @@ The ```rapp_scripts``` folder contains scripts necessary for operations related 
 There are two files aimed for deployment:
 
 - ```deploy_rapp_ros.sh```: Deploys the RAPP Platform back-end, i.e. all the ROS nodes
-- ```deploy_hop_services.sh```: Deploys the corresponding HOP services
+- ```deploy_web_services.sh```: Deploys the corresponding HOP services
 
 If you want to deploy the RAPP Platform in the background you can use ```screen```. Just follow the next steps:
 
-- ```screen```
+- ```screen -S rapp_ros```
 - ```./deploy_rapp_ros.sh```
 - Press Ctrl + a + d to detach
-- ```screen```
-- ```./deploy_hop_services```
+- ```screen -S rapp_web```
+- ```./deploy_web_services```
 - Press Ctrl + a + d to detach
 - ```screen -ls``` to check that 2 screen sessions exist
 
-To reattach to screen session:
+Alternatively:
+
+- ```screen -d -m -S rapp_ros /path/to/deploy_rapp_ros.sh```
+- ```screen -d -m -S rapp_web /path/to/deploy_web_services.sh```
+
+To reattach to screen session, i.e. rapp_ros:
 ```
-screen -r [pid.]tty.host
+screen -r rapp_ros
 ```
-The screen step is for running rapp_ros and hop_services on detached terminals which is useful, for example in the case where you want to connect via ssh to a remote computer, launch the processes and keep them running even after closing the connection. Alternatively, you can open two terminals and run one script on each, without including the screen commands. It is imperative for the terminals to remain open for the processes to remain active.
+The screen step is for running rapp_ros and web_services on detached terminals which is useful, for example in the case where you want to connect via ssh to a remote computer, launch the processes and keep them running even after closing the connection. Alternatively, you can open two terminals and run one script on each, without including the screen commands. It is imperative for the terminals to remain open for the processes to remain active.
+
+### Deploy RAPP at boot
+- Create a script to deploy rapp, for example `/home/user/deploy_rapp.sh`:
+```
+#! /bin/bash -i
+screen -d -m -S rapp_ros /path/to/deploy_rapp_ros.sh
+screen -d -m -S rapp_web /path/to/deploy_web_services.sh
+```
+- Edit `/etc/rc.local` to deploy the script as *user* at startup. Add the following line before the exit command:
+```
+su user -c '/bin/bash -i /home/user/deploy_rapp.sh'
+```
 
 Screen how-to: http://www.rackaid.com/blog/linux-screen-tutorial-and-how-to/
 
