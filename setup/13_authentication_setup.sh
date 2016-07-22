@@ -22,6 +22,8 @@
 source redirect_output.sh
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Setting up authentication\e[0m"
+redirect_all sudo apt-get install libffi-dev
+
 redirect_all sudo pip install bcrypt
 redirect_all sudo pip install passlib
 
