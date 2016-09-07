@@ -178,6 +178,8 @@ CREATE TABLE `platform_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(32) NOT NULL,
   `password` varchar(64) NOT NULL,
+  `name` varchar(64),
+  `surname` varchar(64),
   `ontology_alias` varchar(64) DEFAULT NULL,
   `language` varchar(64) NOT NULL,
   `device_token` varchar(128) NOT NULL,
@@ -194,7 +196,7 @@ CREATE TABLE `platform_user` (
 
 LOCK TABLES `platform_user` WRITE;
 /*!40000 ALTER TABLE `platform_user` DISABLE KEYS */;
-INSERT INTO `platform_user` VALUES (1,'rapp','$2b$12$0RzTZr6bjbqRDTzT4SYBV.I44fG6RHUjMtqxeP2c6Qaansh03GhTC','Person_DpphmPqg','el','rapp',1000,1);
+INSERT INTO `platform_user` VALUES (1,'rapp','noname','nosurname','$2b$12$0RzTZr6bjbqRDTzT4SYBV.I44fG6RHUjMtqxeP2c6Qaansh03GhTC','Person_DpphmPqg','el','rapp',1000,1);
 /*!40000 ALTER TABLE `platform_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;

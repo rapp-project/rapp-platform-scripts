@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS `platform_user` (
   `id` int unsigned AUTO_INCREMENT PRIMARY KEY,
   `username` varchar(32) NOT NULL UNIQUE,
   `password` varchar(64) NOT NULL,
+  `name` varchar(64),
+  `surname` varchar(64),
   `status` tinyint unsigned DEFAULT 1,
   `role` tinyint unsigned DEFAULT 20,
   `creator_id` int unsigned NOT NULL,
@@ -23,10 +25,12 @@ CREATE TABLE IF NOT EXISTS `platform_user` (
 ) ENGINE=InnoDB CHARSET=utf8;
 
 INSERT INTO `platform_user`
-  (username, password, ontology_alias, language_id, role, creator_id)
+  (username, password, name, surname, ontology_alias, language_id, role, creator_id)
   VALUES(
     'rapp',
     '$2b$12$0RzTZr6bjbqRDTzT4SYBV.I44fG6RHUjMtqxeP2c6Qaansh03GhTC',
+    'noname',
+    'nosurname',
     'Person_DpphmPqg',
     (SELECT `id` FROM `language` WHERE `name`='el'),
     0,
@@ -35,6 +39,16 @@ INSERT INTO `platform_user`
 
 ALTER TABLE `platform_user` ADD
   FOREIGN KEY (`creator_id`) REFERENCES `platform_user` (`id`);
+
+CREATE TABLE IF NOT EXISTS `emails` (
+  `id` int unsigned AUTO_INCREMENT PRIMARY KEY,
+  `platform_user_id` int unsigned NOT NULL,
+  `owner` varchar(128) NOT NULL,
+  `email` varchar(128) NOT NULL
+) ENGINE=InnoDB CHARSET=utf8;
+
+ALTER TABLE `emails` ADD
+  FOREIGN KEY (`platform_user_id`) REFERENCES `platform_user` (`id`);
 
 CREATE TABLE IF NOT EXISTS `device` (
   `id` int unsigned AUTO_INCREMENT PRIMARY KEY,
