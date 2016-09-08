@@ -40,14 +40,14 @@ INSERT INTO `platform_user`
 ALTER TABLE `platform_user` ADD
   FOREIGN KEY (`creator_id`) REFERENCES `platform_user` (`id`);
 
-CREATE TABLE IF NOT EXISTS `emails` (
+CREATE TABLE IF NOT EXISTS `platform_user_emails` (
   `id` int unsigned AUTO_INCREMENT PRIMARY KEY,
   `platform_user_id` int unsigned NOT NULL,
   `owner` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL
 ) ENGINE=InnoDB CHARSET=utf8;
 
-ALTER TABLE `emails` ADD
+ALTER TABLE `platform_user_emails` ADD
   FOREIGN KEY (`platform_user_id`) REFERENCES `platform_user` (`id`);
 
 CREATE TABLE IF NOT EXISTS `device` (
